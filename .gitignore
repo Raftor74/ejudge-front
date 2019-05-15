@@ -1,0 +1,14 @@
+.idea
+venv
+__pycache__/
+*/__pycache__/
+*.py[cod]
+.pyc
+*.log
+*.tar
+*.zip
+*.bak
+media/*
+static/admin/
+static/ejudge/
+settings_production.py
