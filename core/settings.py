@@ -1,4 +1,5 @@
 from .settings_base import *
+from .site_settings import *
 from .ejudge_settings import *
 
 DEBUG = True
