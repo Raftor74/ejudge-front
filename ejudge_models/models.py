@@ -23,6 +23,9 @@ class Logins(models.Model):
     pwdtime = models.DateTimeField(auto_now_add=True, blank=True)
     changetime = models.DateTimeField(auto_now_add=True, blank=True)
 
+    def __str__(self):
+        return self.login
+
     class Meta:
         db_table = 'logins'
         ordering = ['user_id']

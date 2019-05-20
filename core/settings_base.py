@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ejudge_models',
+    'ejudge_users',
     'main',
 ]
 
