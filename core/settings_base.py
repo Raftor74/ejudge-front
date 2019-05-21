@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ejudge_models',
     'ejudge_users',
+    'app_auth',
     'main',
 ]
 

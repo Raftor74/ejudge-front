@@ -81,6 +81,9 @@ class Users(models.Model):
     field8 = models.CharField(max_length=512, blank=True, null=True)
     field9 = models.CharField(max_length=512, blank=True, null=True)
 
+    def __str__(self):
+        return "Имя: {} Контест: {}".format(self.username, self.contest_id)
+
     class Meta:
         db_table = 'users'
         unique_together = (('user', 'contest_id'),)

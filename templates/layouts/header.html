@@ -7,12 +7,17 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav mr-auto"></div>
       <ul class="navbar-nav mr-5">
+        {% if user.is_staff %}
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="/admin/" target="_blank">Админ-панель</a>
+          </li>
+        {% endif %}
         {% if not user.is_authenticated %}
           <li class="nav-item mr-2">
-            <a class="nav-link" href="#">Вход</a>
+            <a class="nav-link" href="{% url 'login' %}">Вход</a>
           </li>
           <li class="nav-item mr-2">
-            <a class="nav-link" href="#">Регистрация</a>
+            <a class="nav-link" href="{% url 'registration' %}">Регистрация</a>
           </li>
         {% else %}
           <li class="nav-item mr-2">

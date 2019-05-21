@@ -34,10 +34,8 @@ class EjudgeProfile(models.Model):
     ejudge_pwdmethod = models.CharField(max_length=2, choices=EJUDGE_PWD_METHODS, verbose_name='Тип шифрования')
 
     def __str__(self):
-        if hasattr(self, 'user'):
-            return self.user.username
-        else:
-            return self.pk
+        return self.user.username if hasattr(self, 'user') else self.pk
+
 
     @staticmethod
     def parse_pwd_method(pwd_method, default=DEFAULT_PWD_METHOD):
@@ -55,11 +53,14 @@ class EjudgeProfile(models.Model):
 
     def save(self, *args, **kwargs):
         if hasattr(self, 'ejudge_user'):
+            # Сохранение данных в Logins
             ejudge_user_model = self.ejudge_user
+
             ejudge_user_model.pwdmethod = 0
             ejudge_user_model.password = self.ejudge_password
             ejudge_user_model.pwdmethod = self.parse_pwd_method(self.ejudge_pwdmethod)
             ejudge_user_model.save()
+
         super(EjudgeProfile, self).save(*args, **kwargs)
 
     class Meta:
@@ -76,7 +77,10 @@ class EjudgeProfile(models.Model):
             email=user_instance.email,
         )
 
-        return EjudgeProfile.objects.create(user=user_instance, ejudge_user=ejudge_user_model)
+        return EjudgeProfile.objects.create(
+            user=user_instance,
+            ejudge_user=ejudge_user_model,
+        )
 
     @staticmethod
     def update_profile(user_instance):
@@ -91,19 +95,16 @@ class EjudgeProfile(models.Model):
         ejudge_profile = user_instance.ejudgeprofile
         ejudge_profile.save()
 
-        if not hasattr(ejudge_profile, 'ejudge_user'):
-            return False
+        if hasattr(ejudge_profile, 'ejudge_user'):
+            # Модель Logins
+            ejudge_user_model = ejudge_profile.ejudge_user
 
-        # Модель Logins
-        ejudge_user_model = ejudge_profile.ejudge_user
-
-        # Заполнение полей в модели Logins
-        ejudge_user_model.login = user_instance.username
-        ejudge_user_model.email = user_instance.email
-        ejudge_user_model.pwdmethod = EjudgeProfile.parse_pwd_method(ejudge_profile.ejudge_pwdmethod)
-        ejudge_user_model.password = ejudge_profile.ejudge_password
-
-        return ejudge_user_model.save()
+            # Заполнение полей в модели Logins
+            ejudge_user_model.login = user_instance.username
+            ejudge_user_model.email = user_instance.email
+            ejudge_user_model.pwdmethod = EjudgeProfile.parse_pwd_method(ejudge_profile.ejudge_pwdmethod)
+            ejudge_user_model.password = ejudge_profile.ejudge_password
+            ejudge_user_model.save()
 
     @receiver(post_save, sender=User)
     def create_ejudge_profile(sender, instance, created, **kwargs):
@@ -119,7 +120,8 @@ class EjudgeProfile(models.Model):
 @receiver(pre_delete, sender=EjudgeProfile)
 def delete_ejudge_profile_model(sender, instance, **kwargs):
     ejudge_user_model_pk = instance.ejudge_id
-    if ejudge_user_model_pk:
+    # Если есть профиль пользователя и он не профиль администратора
+    if ejudge_user_model_pk and ejudge_user_model_pk != 1:
         # Получение модели пользователя
         ejudge_user_model = Logins.objects.get(pk=ejudge_user_model_pk)
         # Удаление регистрации пользователя на контесты
