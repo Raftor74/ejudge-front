@@ -5,3 +5,9 @@ main > .container {
 .footer-copyright {
   color: #ffffff;
 }
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: red;
+}
