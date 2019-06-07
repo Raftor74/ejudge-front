@@ -5,8 +5,34 @@
 
 {% block content %}
 <div class="container">
-  <h1>Вход</h1>
+  <div id="login-app">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="page_title">Вход в систему</h1>
+      </div>
+      <div class="col-6">
+        <div class="alert alert-danger" v-show="error.length">[[ error ]]</div>
+        <form id="login-form" @submit.prevent="submitForm" action="{% url 'login' %}" method="post" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="login"><strong>Ваш логин</strong></label>
+            <input id="login" v-validate="'required'" v-model="login" class="form-control" name="login" type="text" placeholder="Ваш логин" required>
+            <small class="invalid-feedback">[[ errors.first('login') ]]</small>
+          </div>
+          <div class="form-group">
+            <label for="password"><strong>Ваш пароль</strong></label>
+            <input id="password" v-validate="'required'" v-model="password" class="form-control" name="password" type="password" placeholder="Ваш пароль" required>
+            <small class="invalid-feedback">[[ errors.first('password') ]]</small>
+          </div>
+          <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
-{% block additional_js %}{% endblock %}
+{% block additional_js %}
+  <script src="{% static 'app_auth/js/script.js' %}" defer></script>
+  <script>window.API_ROUTE = '{% url 'login' %}';</script>
+{% endblock %}
