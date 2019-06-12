@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'app_auth',
     'app_profile',
     'system_control',
+    'contests',
+    'problems',
     'api',
     'main',
 ]

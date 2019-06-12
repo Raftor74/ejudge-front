@@ -23,5 +23,7 @@ urlpatterns = [
     path('api/v1/', include('api.urls')),
     path('profile/', include('app_profile.urls')),
     path('system/', include('system_control.urls')),
+    path('contests/', include('contests.urls')),
+    path('problems/', include('problems.urls')),
     path('', IndexView.as_view(), name='index')
 ]
