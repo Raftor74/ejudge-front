@@ -11,3 +11,7 @@ textarea[aria-invalid="true"],
 select[aria-invalid="true"] {
   border-color: red;
 }
+
+.flex-card {
+  min-height: 100%;
+}

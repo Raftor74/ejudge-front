@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'ejudge_users',
     'app_auth',
     'app_profile',
+    'system_control',
     'api',
     'main',
 ]

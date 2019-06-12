@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Управление системой{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div id="app" class="row">
+        <div class="col-12 mb-3">
+          <h1>Управление системой Ejudge</h1>
+        </div>
+        <div class="col-4">
+          <div class="card flex-card">
+            <div class="card-body">
+              <h5 class="card-title">Запустить систему Ejudge</h5>
+              <p class="card-text">Запускает систему Ejudge и делает активным её веб-интерфейс</p>
+              <a href="#" class="btn btn-success">Запустить</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card flex-card">
+            <div class="card-body">
+              <h5 class="card-title">Перезагрузить систему Ejudge</h5>
+              <p class="card-text">Последовательно останавливает и запускает систему Ejudge</p>
+              <a href="#" class="btn btn-primary">Перезагрузить</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card flex-card">
+            <div class="card-body">
+              <h5 class="card-title">Остановить систему Ejudge</h5>
+              <p class="card-text">Останавливает систему Ejudge и деактивирует её веб-интерфейс</p>
+              <a href="#" class="btn btn-danger">Остановить</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block additional_js %}
+  <script src="{% static 'system_control/js/script.js' %}" defer></script>
+{% endblock %}
