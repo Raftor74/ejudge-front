@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse
 from django.views import View
 from django.contrib.auth import authenticate, login
@@ -9,7 +9,7 @@ class LoginView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect('/')
+            return redirect(reverse('profile'))
 
         context = {}
         return render(request, template_name='app_auth/login.html', context=context)

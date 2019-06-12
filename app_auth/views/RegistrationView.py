@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.views import View
 from django.http import JsonResponse
 from django.contrib.auth.models import User
@@ -11,7 +11,7 @@ class RegistrationView(View):
 
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect('/')
+            return redirect(reverse('profile'))
 
         context = {}
         return render(request, template_name='app_auth/registration.html', context=context)

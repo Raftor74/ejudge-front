@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'ejudge_models',
     'ejudge_users',
     'app_auth',
+    'app_profile',
+    'api',
     'main',
 ]
 
@@ -76,3 +78,5 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGIN_URL = '/auth/login/'
