@@ -79,10 +79,7 @@
               return false;
             }
 
-            let data = {
-              login: this.login,
-              password: this.password,
-            };
+            let data = this.$data;
 
             $.post(this.apiRoute, data).done(response => {
               if (response.status !== 'ok') {
@@ -130,10 +127,7 @@
               return false;
             }
 
-            let data = {
-              login: this.login,
-              password: this.password,
-            };
+            let data = this.$data;
 
             $.post(this.apiRoute, data).done(response => {
               if (response.status !== 'ok') {

@@ -13,7 +13,44 @@
       <div class="col-6">
         <div class="alert alert-danger" v-show="error.length">[[ error ]]</div>
         <form id="registration-form" @submit.prevent="submitForm" action="{% url 'registration' %}" method="post" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="login"><strong>Ваш логин</strong></label>
+            <input id="login" v-validate="'required|min:5'" v-model.trim="login" class="form-control" name="login" type="text" placeholder="Ваш логин" required>
+            <small class="invalid-feedback">[[ errors.first('login') ]]</small>
+            <small id="loginHelp" class="form-text text-muted">От 5 до 30 латинских символов. Пробелы с начала и конца строки обрезаются</small>
+          </div>
 
+          <div class="form-group">
+            <label for="email"><strong>Ваш Email</strong></label>
+            <input id="email" v-validate="'required|email'" v-model.trim="email" class="form-control" name="email" type="email" placeholder="Ваш email" required>
+            <small class="invalid-feedback">[[ errors.first('email') ]]</small>
+          </div>
+
+          <div class="form-group">
+            <label for="firstName"><strong>Ваше имя</strong></label>
+            <input id="firstName" v-validate="'required'" v-model.trim="firstName" class="form-control" name="firstName" type="text" placeholder="Ваше имя" required>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName"><strong>Ваша фамилия</strong></label>
+            <input id="lastName" v-validate="'required'" v-model.trim="lastName" class="form-control" name="lastName" type="text" placeholder="Ваша фамилия" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password"><strong>Ваш пароль</strong></label>
+            <input id="password" v-validate="'required|min:8'" ref="password" v-model="password" class="form-control" name="password" type="password" placeholder="Ваш пароль" required>
+            <small class="invalid-feedback">[[ errors.first('password') ]]</small>
+            <small id="passwordHelp" class="form-text text-muted">Необходим стойкий пароль от 8 символов, включая сложные: ! $ { } и т.п.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword"><strong>Ваш пароль ещё раз</strong></label>
+            <input id="confirmPassword" v-validate="'required|confirmed:password'" data-vv-as="Пароль" v-model="confirmPassword" class="form-control" name="confirmPassword" type="password" placeholder="Ваш пароль ещё раз" required>
+            <small class="invalid-feedback">[[ errors.first('confirmPassword') ]]</small>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
         </form>
       </div>
     </div>

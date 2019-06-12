@@ -13,7 +13,11 @@ $(document).ready(function () {
   const dictionary = {
     ru: {
       messages: {
-        required: () => 'Заполните данное поле'
+        required: () => 'Заполните данное поле',
+        min: () => 'Кол-во символов меньше необходимого',
+        max: () => 'Кол-во символов больше необходимого',
+        confirmed: (field) => 'Значение не совпадает с полем ' + field.toString(),
+        email: () => 'Указан недопустимый Email',
       }
     },
   };
