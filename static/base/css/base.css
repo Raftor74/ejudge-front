@@ -15,3 +15,11 @@ select[aria-invalid="true"] {
 .flex-card {
   min-height: 100%;
 }
+
+.process-active-text {
+  color: #6eac2c;
+}
+
+.process-stopped-text {
+  color: #cc1111;
+}

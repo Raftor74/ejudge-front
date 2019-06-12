@@ -4,42 +4,109 @@
 {% block title %}Управление системой{% endblock %}
 
 {% block content %}
-    <div class="container">
-      <div id="app" class="row">
-        <div class="col-12 mb-3">
-          <h1>Управление системой Ejudge</h1>
+  <div class="container">
+    <div id="app" class="row">
+      <div class="col-12 mb-3">
+        <h1>Управление системой</h1>
+      </div>
+      <div class="col-12">
+        <div class="alert alert-danger" v-show="error.length">
+          [[ error ]]
+          <button type="button" class="close" @click.prevent="clearNotifications" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <div class="col-4">
-          <div class="card flex-card">
-            <div class="card-body">
-              <h5 class="card-title">Запустить систему Ejudge</h5>
-              <p class="card-text">Запускает систему Ejudge и делает активным её веб-интерфейс</p>
-              <a href="#" class="btn btn-success">Запустить</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card flex-card">
-            <div class="card-body">
-              <h5 class="card-title">Перезагрузить систему Ejudge</h5>
-              <p class="card-text">Последовательно останавливает и запускает систему Ejudge</p>
-              <a href="#" class="btn btn-primary">Перезагрузить</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card flex-card">
-            <div class="card-body">
-              <h5 class="card-title">Остановить систему Ejudge</h5>
-              <p class="card-text">Останавливает систему Ejudge и деактивирует её веб-интерфейс</p>
-              <a href="#" class="btn btn-danger">Остановить</a>
-            </div>
-          </div>
+        <div class="alert alert-success" v-show="success.length">
+          [[ success ]]
+          <button type="button" class="close" @click.prevent="clearNotifications" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
       </div>
+      {% if request.user.is_superuser %}
+        <div class="col-12 mb-3 mt-3 text-center">
+          <a class="btn btn-primary"
+             data-toggle="collapse"
+             href="#system-control"
+             role="button"
+             aria-expanded="false"
+             aria-controls="system-control">
+             Управление системой Ejudge
+          </a>
+          <a class="btn btn-primary"
+             data-toggle="collapse"
+             href="#system-status"
+             role="button"
+             aria-expanded="false"
+             aria-controls="system-status">
+             Состояние системы Ejudge
+          </a>
+        </div>
+        <div class="col-12">
+          <div id="system-status" class="collapse">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th scope="col">Название процесса</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Статус</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="procStatus in systemStatus">
+                <td>[[ procStatus.name ]]</td>
+                <td>[[ procStatus.description ]]</td>
+                <td>
+                  <span v-if="procStatus.status" class="process-active-text"><strong>Запущен</strong></span>
+                  <span v-if="!procStatus.status" class="process-stopped-text"><strong>Остановлен</strong></span>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div id="system-control" class="collapse">
+          <div class="row">
+            <div class="col-4">
+              <div class="card flex-card">
+                <div class="card-body">
+                  <h5 class="card-title">Запустить систему Ejudge</h5>
+                  <p class="card-text">Запускает систему Ejudge и делает активным её веб-интерфейс</p>
+                  <a href="javascript:void(0);" @click.prevent="startSystem" class="btn btn-success">Запустить</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="card flex-card">
+                <div class="card-body">
+                  <h5 class="card-title">Перезагрузить систему Ejudge</h5>
+                  <p class="card-text">Последовательно останавливает и запускает систему Ejudge</p>
+                  <a href="javascript:void(0);" @click.prevent="reloadSystem" class="btn btn-primary">Перезагрузить</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="card flex-card">
+                <div class="card-body">
+                  <h5 class="card-title">Остановить систему Ejudge</h5>
+                  <p class="card-text">Останавливает систему Ejudge и деактивирует её веб-интерфейс</p>
+                  <a href="javascript:void(0);" @click.prevent="stopSystem" class="btn btn-danger">Остановить</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
     </div>
+  </div>
 {% endblock %}
 
 {% block additional_js %}
   <script src="{% static 'system_control/js/script.js' %}" defer></script>
+  <script type="text/javascript" defer>
+    var SYSTEM_START_API_ROUTE = '{% url 'start_ejudge_system' %}';
+    var SYSTEM_RELOAD_API_ROUTE = '{% url 'reload_ejudge_system' %}';
+    var SYSTEM_STOP_API_ROUTE = '{% url 'stop_ejudge_system' %}';
+    var SYSTEM_STATUS_API_ROUTE = '{% url 'ejudge_system_status' %}';
+  </script>
 {% endblock %}

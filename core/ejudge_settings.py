@@ -19,6 +19,16 @@ EJUDGE_CONFIG_TEMPLATES_DIR_NAME = 'ejudge_templates'
 # Полный путь к папке с шаблонами конфигурационных файлов Ejudge
 EJUDGE_CONFIG_TEMPLATES_DIR = os.path.join(BASE_DIR, EJUDGE_CONFIG_TEMPLATES_DIR_NAME)
 
+# Название процессов для идентификации запуска Ejudge
+EJUDGE_SYSTEM_REQUIRED_PROCESSES = (
+    ('ej-compile', "Компиляция турниров"),
+    ('ej-contests', "Обработка запросов пользователей, посылок и т.п"),
+    ('ej-jobs', "Рассылка e-mail сообщений, воспроизведение звуковых записей и т. д."),
+    ('ej-super-run', "Запус решений участников"),
+    ('ej-super-server', "Выполняет мониторинг активных турниров"),
+    ('ej-users', "Выполняет функции сервера базы пользователей"),
+)
+
 # Проверяющие программы системы Ejudge
 EJUDGE_CHECKERS_CHOICES = (
     ('cmp_file', 'Cравнение двух файлов'),
