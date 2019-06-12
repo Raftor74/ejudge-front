@@ -5,7 +5,19 @@
 
 {% block content %}
 <div class="container">
-  <h1>Регистрация</h1>
+  <div id="registration-app">
+    <div class="row">
+      <div class="col-12">
+        <h1>Регистрация</h1>
+      </div>
+      <div class="col-6">
+        <div class="alert alert-danger" v-show="error.length">[[ error ]]</div>
+        <form id="registration-form" @submit.prevent="submitForm" action="{% url 'registration' %}" method="post" enctype="multipart/form-data" novalidate>
+
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
