@@ -52,6 +52,7 @@
         max_vm_size: 64,
         max_exec_time: 5,
         checker: '',
+        is_visible: false,
         tests_examples: [{input:'', output:''}],
         tests: [{input:'', output:''}],
       };
@@ -121,6 +122,7 @@
               max_vm_size: this.max_vm_size,
               max_exec_time: this.max_exec_time,
               checker: this.checker,
+              is_visible: this.is_visible,
               tests_examples: JSON.stringify(this.clearEmptyTests(this.tests_examples)),
               tests: JSON.stringify(this.clearEmptyTests(this.tests)),
             };

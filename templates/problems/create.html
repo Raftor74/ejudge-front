@@ -81,9 +81,16 @@
                     </select>
                     <small class="invalid-feedback">[[ errors.first('checker') ]]</small>
                   </div>
+                  <div class="mt-2 mb-2"><strong>Видимость задачи в списке</strong></div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="is_visible">
+                    <label class="form-check-label" for="is_visible">
+                      Видна для пользователей
+                    </label>
+                  </div>
                 </div>
 
-                <div class="col-12 mt-3 mb-3">
+                <div class="col-12 mt-4 mb-3">
                   <h3 class="float-left">Тестовые данные задачи</h3>
                   <button @click.prevent="clearEmptyTestsExamples" class="btn btn-danger float-right">
                     <i class="fa fa-plus"></i> Удалить пустые строки
