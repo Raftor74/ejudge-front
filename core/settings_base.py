@@ -92,7 +92,7 @@ CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 CKEDITOR_CONFIGS = {
     'default': {
-        'toolbar': [['Source', 'Link', 'Unlink', 'SpecialChar', 'Image', 'Table', 'Styles', 'Format', 'CodeSnippet']],
+        'toolbar': 'full',
         'height': 400,
         'width': 900,
         'removePlugins': 'stylesheetparser',

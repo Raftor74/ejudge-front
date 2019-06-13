@@ -6,6 +6,23 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-5">
+        <li class="nav-item mr-2">
+            <a class="nav-link" href="/">Главная</a>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+               aria-expanded="false">Меню</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'contests_index' %}">Список турниров</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'problems_index' %}">Список задач</a>
+            </div>
+          </li>
+        {% endif %}
+      </ul>
+
       <div class="navbar-nav mr-auto"></div>
       <ul class="navbar-nav mr-5">
         {% if user.is_staff %}
