@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
+    'ckeditor_uploader',
     'ejudge_models',
     'ejudge_users',
     'app_auth',
@@ -83,3 +85,17 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_URL = '/auth/login/'
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': [['Source', 'Link', 'Unlink', 'SpecialChar', 'Image', 'Table', 'Styles', 'Format', 'CodeSnippet']],
+        'height': 400,
+        'width': 900,
+        'removePlugins': 'stylesheetparser',
+        'extraPlugins': 'codesnippet',
+    },
+}

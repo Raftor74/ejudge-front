@@ -25,5 +25,6 @@ urlpatterns = [
     path('system/', include('system_control.urls')),
     path('contests/', include('contests.urls')),
     path('problems/', include('problems.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('', IndexView.as_view(), name='index')
 ]
