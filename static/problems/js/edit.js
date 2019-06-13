@@ -17,6 +17,8 @@
       this.JSSnippets = window.JSSnippets;
       this.application = null;
       this.apiRoute = '';
+      this.CKEDITOR = this.JSSnippets.getPropertyOrDefault(window.CKEDITOR, null);
+      this.descriptionId = 'description';
     },
 
     initElements: function () {
@@ -171,10 +173,12 @@
         data: data,
         methods: methods,
         computed: computed,
-        created: function () {
+        mounted: function () {
           this.loadProblem().then((response) => {
             this.extractProblemFields(response.data);
           });
+
+          source.CKEDITOR.replace(source.descriptionId);
         },
       });
     },

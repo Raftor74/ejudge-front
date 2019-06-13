@@ -38,7 +38,7 @@
                 <div class="col-12">
                   <div class="form-group">
                     <label for="description"><strong>Описание задачи</strong></label>
-                    <textarea id="description" rows="8" v-validate="'required'" v-model="description" class="form-control" name="description"></textarea>
+                    <textarea id="description" rows="12" v-validate="'required'" v-model="description" class="form-control" name="description"></textarea>
                     <small class="invalid-feedback">[[ errors.first('description') ]]</small>
                   </div>
                 </div>
@@ -164,4 +164,6 @@
 
 {% block additional_js %}
   <script src="{% static 'problems/js/edit.js' %}" defer></script>
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}" defer></script>
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}" defer></script>
 {% endblock %}
