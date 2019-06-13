@@ -73,7 +73,7 @@
                 <div class="col-12">
                   <div class="form-group">
                     <label for="checker"><strong>Тип сравнения ответов</strong></label>
-                    <select class="form-control" name="checker" id="checker" v-validate="'required'">
+                    <select class="form-control" name="checker" v-model="checker" id="checker" v-validate="'required'">
                       <option value="">Не выбран</option>
                       {% for checker in checkers %}
                         <option value="{{ checker.0 }}">{{ checker.1 }}</option>
@@ -83,7 +83,7 @@
                   </div>
                   <div class="mt-2 mb-2"><strong>Видимость задачи в списке</strong></div>
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="is_visible">
+                    <input class="form-check-input" type="checkbox" value="" id="is_visible" v-model="is_visible">
                     <label class="form-check-label" for="is_visible">
                       Видна для пользователей
                     </label>
@@ -93,7 +93,7 @@
                 <div class="col-12 mt-4 mb-3">
                   <h3 class="float-left">Тестовые данные задачи</h3>
                   <button @click.prevent="clearEmptyTestsExamples" class="btn btn-danger float-right">
-                    <i class="fa fa-plus"></i> Удалить пустые строки
+                    <i class="fa fa-trash-o"></i> Удалить пустые строки
                   </button>
                   <button @click.prevent="addEmptyTestExample" class="btn btn-success float-right mr-2"><i class="fa fa-plus"></i> Добавить строку</button>
                 </div>
@@ -123,7 +123,7 @@
                 <div class="col-12 mt-3 mb-3">
                   <h3 class="float-left">Реальные данные задачи</h3>
                   <button @click.prevent="clearEmptyTestsReal" class="btn btn-danger float-right">
-                    <i class="fa fa-plus"></i> Удалить пустые строки
+                    <i class="fa fa-trash-o"></i> Удалить пустые строки
                   </button>
                   <button @click.prevent="addEmptyTest" class="btn btn-success float-right mr-2"><i class="fa fa-plus"></i> Добавить строку</button>
                 </div>
