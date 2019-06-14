@@ -67,9 +67,6 @@ class ContestUserRegister(object):
             if self.is_register_exist(contest_ejudge_id, ejudge_user):
                 continue
 
-            if self.is_user_admin(ejudge_user.pk):
-                continue
-
             self.register_user_to_contest(ejudge_user, contest_ejudge_id)
             return True
 

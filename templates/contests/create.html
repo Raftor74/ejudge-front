@@ -45,12 +45,11 @@
                   <small class="invalid-feedback">[[ errors.first('scope_system') ]]</small>
                 </div>
 
-
                 <!-- Дата начала турнира -->
                 <div class="form-group col-6">
-                  <label for="start_time"><strong>Дата начала турнира</strong></label>
-                  <input id="start_time" v-validate="'required'" v-model="start_time" class="form-control"
-                         name="start_time" type="text">
+                  <label for="start_time"><strong>Дата и время начала турнира</strong></label>
+                  <input id="start_time" v-validate="'required|date_format:dd.MM.yyyy HH:mm'" v-model="start_time" class="form-control"
+                         name="start_time" type="text" placeholder="Формат: 01.01.2019 15:30">
                   <small class="invalid-feedback">[[ errors.first('start_time') ]]</small>
                 </div>
 

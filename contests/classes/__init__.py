@@ -1,0 +1,1 @@
+from .ContestManager import ContestCreate, ContestUpdate

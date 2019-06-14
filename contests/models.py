@@ -2,9 +2,12 @@ import os
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from ejudge_models.models import Cntsregs
 from problems.models import Problems
 from django.db.models.signals import m2m_changed
+from django.db.models.signals import pre_delete
 from tools import ContestUserRegister
+from django.dispatch import receiver
 
 
 # Таблица для хранения контестов
@@ -62,3 +65,10 @@ def contests_users_changed(sender, **kwargs):
 
 
 m2m_changed.connect(contests_users_changed, sender=Contests.users.through)
+
+
+# Удаление связанных сущностей после удаления контеста Ejudge
+@receiver(pre_delete, sender=Contests)
+def delete_contest_records(sender, instance, **kwargs):
+    ejudge_contest_id = int(instance.ejudge_id)
+    Cntsregs.objects.filter(contest_id=ejudge_contest_id).delete()

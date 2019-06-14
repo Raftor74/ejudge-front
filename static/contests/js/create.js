@@ -117,7 +117,22 @@
               return false;
             }
 
-            let data = {};
+            if (!this.problems.length) {
+              this.setError("Выберите хотя бы одну задачу для турнира");
+              source.JSSnippets.focusOnElement(source.$formError);
+              return false;
+            }
+
+            let data = {
+              name: this.name,
+              duration: this.duration,
+              scope_system: this.scope_system,
+              start_time: this.start_time,
+              is_closed: this.is_closed ? "Y" : '',
+              is_visible: this.is_visible ? "Y" : '',
+              secret_word: this.secret_word,
+              problems: JSON.stringify(this.problems),
+            };
 
             $.post(this.apiRoute, data).done(response => {
               if (response.status !== 'ok') {

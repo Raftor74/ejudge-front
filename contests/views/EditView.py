@@ -2,8 +2,9 @@ from django.conf import settings
 from django.shortcuts import render, get_object_or_404, reverse
 from django.views import View
 from django.http import JsonResponse
-from tools import admin_required, Response, ContestSerializer, ContestUpdate
+from tools import admin_required, Response, ContestSerializer
 from contests.models import Contests
+from contests.classes.ContestManager import ContestUpdate
 
 
 @admin_required()

@@ -3,7 +3,8 @@ from django.shortcuts import render, reverse
 from django.views import View
 from django.http import JsonResponse
 from contests.models import Contests
-from tools import admin_required, Response, ContestCreate
+from tools import admin_required, Response
+from contests.classes import ContestCreate
 
 
 @admin_required()
