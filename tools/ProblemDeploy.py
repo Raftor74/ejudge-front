@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 class ProblemDeploy(object):
 
     EOF = "\n"
+    TESTS_DIR_NAME = 'tests'
     DESCRIPTION_FILENAME = "statement.xml"
     INPUT_TEST_FILE_EXTENSION = '.dat'
     OUTPUT_TEST_FILE_EXTENSION = '.ans'
@@ -17,7 +18,8 @@ class ProblemDeploy(object):
         self.short_id = short_id
         self.problem = problem
         self.problem_dir = os.path.join(deploy_path, short_id)
-        self.tests_dir = os.path.join(self.problem_dir, 'tests')
+        self.tests_dir = os.path.join(self.problem_dir, self.TESTS_DIR_NAME)
+        self.problem_config = self.set_problem_config()
 
     def create_directory(self, dir_path):
         try:
@@ -97,6 +99,30 @@ class ProblemDeploy(object):
             test_number += 1
         return True
 
+    def get_problem_checker_env(self):
+        return self.get_problem_epsilon_for_config()
+
+    def get_problem_epsilon_for_config(self):
+        epsilon = str(self.problem.epsilon)
+        return "EPS={}".format(epsilon)
+
+    def is_checker_env_exist(self):
+        return len(str(self.problem.epsilon))
+
+    def set_problem_config(self):
+        template = settings.EJUDGE_PROBLEM_CONFIG_TEMPLATE_FILE_LOCAL_PATH
+        context = {
+            'id': str(self.problem.pk),
+            'short_id': str(self.short_id),
+            'title': str(self.problem.title),
+            'max_exec_time': int(self.problem.max_exec_time),
+            'max_vm_size': int(self.problem.max_vm_size),
+            'comparison': str(self.problem.comparison),
+            'checker_env_exist': self.is_checker_env_exist(),
+            'checker_env': self.get_problem_checker_env(),
+        }
+        self.problem_config = render_to_string(template_name=template, context=context)
+        return True
 
     def create_problem_description_file(self):
         problem_description_file_path = os.path.join(self.problem_dir, self.DESCRIPTION_FILENAME)
