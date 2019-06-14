@@ -90,7 +90,13 @@
                 </div>
 
                 <div class="col-12 mt-4 mb-3">
-                  <h3 class="float-left">Тестовые данные задачи</h3>
+                  <h3 class="float-left">
+                    <a href="#example-tests"
+                       data-toggle="collapse"
+                       role="button"
+                       aria-expanded="false"
+                       aria-controls="example-tests">Тестовые данные задачи</a>
+                  </h3>
                   <button @click.prevent="clearEmptyTestsExamples" class="btn btn-danger float-right">
                     <i class="fa fa-trash-o"></i> Удалить пустые строки
                   </button>
@@ -98,7 +104,7 @@
                 </div>
 
                 <!-- Тестовые входные / выходные данные -->
-                <div class="col-12">
+                <div id="example-tests" class="col-12 collapse">
                   <table class="table table-bordered">
                     <thead>
                       <tr>
@@ -120,7 +126,13 @@
                 </div>
 
                 <div class="col-12 mt-3 mb-3">
-                  <h3 class="float-left">Реальные данные задачи</h3>
+                  <h3 class="float-left">
+                    <a href="#real-tests"
+                       data-toggle="collapse"
+                       role="button"
+                       aria-expanded="false"
+                       aria-controls="real-tests">Реальные данные задачи</a>
+                  </h3>
                   <button @click.prevent="clearEmptyTestsReal" class="btn btn-danger float-right">
                     <i class="fa fa-trash-o"></i> Удалить пустые строки
                   </button>
@@ -128,7 +140,7 @@
                 </div>
 
                 <!-- Реальные входные / выходные данные -->
-                <div class="col-12">
+                <div id="real-tests" class="col-12 collapse">
                   <table class="table table-bordered">
                     <thead>
                       <tr>

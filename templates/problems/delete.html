@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}ID:{{ problem.pk }} "{{ problem.title }}" - Удаление задачи{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <h2>Удаление задачи ID:{{ problem.pk }} "{{ problem.title }}"</h2>
+      </div>
+      <div class="col-12">
+        <form action="{% url 'problems_delete' task_id=problem.pk %}" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <p>Для удаления задачи нажмите кнопку "Удалить"</p>
+          </div>
+          <div class="form-group mt-4">
+            <a href="{% url 'problems_index' %}" class="btn btn-primary">Отмена</a>
+            <button type="submit" class="btn btn-danger">Удалить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

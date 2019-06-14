@@ -2,6 +2,8 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
+    path('delete/<task_id>/', DeleteView.as_view(), name='problems_delete'),
+    path('deploy/<task_id>/', DeployView.as_view(), name='problems_deploy'),
     path('detail/<task_id>/', DetailView.as_view(), name='problems_detail'),
     path('edit/<task_id>/', EditView.as_view(), name='problems_edit'),
     path('create/', CreateView.as_view(), name='problems_create'),
