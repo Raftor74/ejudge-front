@@ -4,7 +4,7 @@ $(document).ready(function () {
   const csrfToken = JSSnippets.getCookie('csrftoken');
 
   $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
+    beforeSend: function (xhr, settings) {
       xhr.setRequestHeader("X-CSRFToken", csrfToken);
     }
   });
@@ -23,7 +23,6 @@ $(document).ready(function () {
     },
   };
 
-
   Vue.use(VeeValidate, {
     aria: true,
     locale: 'ru',
@@ -32,6 +31,40 @@ $(document).ready(function () {
     classNames: {
       valid: 'is-valid',
       invalid: 'is-invalid'
+    }
+  });
+
+
+  /* Vue Обёртка для Select2 */
+  Vue.component('select2', {
+    props: ['options', 'value', 'data'],
+    template: '#select2-template',
+    mounted: function () {
+      var vm = this;
+      $(this.$el)
+      // init select2
+      .select2(this.options)
+      .val(this.value)
+      .trigger('change')
+      // emit event on change.
+      .on('change', function () {
+        vm.$emit('input', this.value);
+      })
+    },
+    watch: {
+      value: function (value) {
+        // update value
+        $(this.$el)
+        .val(value)
+        .trigger('change')
+      },
+      options: function (options) {
+        // update options
+        $(this.$el).empty().select2(this.options)
+      }
+    },
+    destroyed: function () {
+      $(this.$el).off().select2('destroy')
     }
   });
 
