@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<problem
+   package = "ru.ejudge.sample_contest"
+   id = "{{ short_id }}"
+   type = "standard">
+  <statement language="ru_RU">
+    <title>{{ title | safe }}</title>
+    <description>{{ description | safe }}</description>
+  </statement>
+  <examples>{{ examples | safe }}</examples>
+</problem>

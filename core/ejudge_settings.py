@@ -17,7 +17,22 @@ EJUDGE_CONTROL_SCRIPT_PATH = os.path.join(EJUDGE_CONTROL_DIR, EJUDGE_CONTROL_SCR
 EJUDGE_CONFIG_TEMPLATES_DIR_NAME = 'ejudge_templates'
 
 # Полный путь к папке с шаблонами конфигурационных файлов Ejudge
-EJUDGE_CONFIG_TEMPLATES_DIR = os.path.join(BASE_DIR, EJUDGE_CONFIG_TEMPLATES_DIR_NAME)
+EJUDGE_CONFIG_TEMPLATES_DIR_ABSOLUTE_PATH = os.path.join(BASE_DIR, EJUDGE_CONFIG_TEMPLATES_DIR_NAME)
+
+# Относительный путь к папке с шаблонами конфигурационных файлов Ejudge
+EJUDGE_CONFIG_TEMPLATES_DIR_LOCAL_PATH = EJUDGE_CONFIG_TEMPLATES_DIR_NAME
+
+# Файл шаблона конфигурации для задачи Ejudge
+EJUDGE_PROBLEM_CONFIG_TEMPLATE_FILE_ABSOLUTE_PATH = os.path.join(EJUDGE_CONFIG_TEMPLATES_DIR_ABSOLUTE_PATH, 'problem.cfg')
+
+# Файл шаблона конфигурации для задачи Ejudge
+EJUDGE_PROBLEM_CONFIG_TEMPLATE_FILE_LOCAL_PATH = os.path.join(EJUDGE_CONFIG_TEMPLATES_DIR_LOCAL_PATH, 'problem.cfg')
+
+# Файл шаблона описания для задачи Ejudge
+EJUDGE_PROBLEM_DESCRIPTION_TEMPLATE_FILE_ABSOLUTE_PATH = os.path.join(EJUDGE_CONFIG_TEMPLATES_DIR_ABSOLUTE_PATH, 'problem.xml')
+
+# Файл шаблона описания для задачи Ejudge
+EJUDGE_PROBLEM_DESCRIPTION_TEMPLATE_FILE_LOCAL_PATH = os.path.join(EJUDGE_CONFIG_TEMPLATES_DIR_LOCAL_PATH, 'problem.xml')
 
 # Название процессов для идентификации запуска Ejudge
 EJUDGE_SYSTEM_REQUIRED_PROCESSES = (
