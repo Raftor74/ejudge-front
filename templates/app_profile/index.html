@@ -48,8 +48,8 @@
         <div class="card float-right">
           <div class="card-body">
             <h5 class="card-title">Олимпиадные турниры в системе</h5>
-            <p class="card-text">Зарегистрирован на: 0</p>
-            <p class="card-text">Всего доступно: 0</p>
+            <p class="card-text">Зарегистрирован на: {{ user.contest_users.count }}</p>
+            <p class="card-text">Всего доступно: {{ count_contests }}</p>
             <a href="{% url 'contests_index' %}" class="btn btn-primary">Открыть список турниров</a>
             <a href="{% url 'problems_index' %}" class="btn btn-primary">Открыть список задач</a>
           </div>

@@ -3,6 +3,8 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from problems.models import Problems
+from django.db.models.signals import m2m_changed
+from tools import ContestUserRegister
 
 
 # Таблица для хранения контестов
@@ -17,6 +19,7 @@ class Contests(models.Model):
     secret_word = models.CharField(blank=True, max_length=40, verbose_name="Кодовое слово")
     owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, verbose_name="Создатель")
     problems = models.ManyToManyField(Problems, verbose_name="Список задач")
+    users = models.ManyToManyField(User, null=True, related_name='contest_users', verbose_name="Участники")
     created_at = models.DateTimeField(auto_now_add=True, blank=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, blank=True, verbose_name="Дата обновления")
 
@@ -48,3 +51,14 @@ class Contests(models.Model):
         verbose_name = 'Контест'
         verbose_name_plural = 'Контесты'
 
+
+# Регистрируем пользователя на турнир в Ejudge, когда он регистрируется в Django
+def contests_users_changed(sender, **kwargs):
+    ContestUserRegister(
+        contest_instance=kwargs['instance'],
+        user_set_ids=kwargs['pk_set'],
+        action=kwargs['action']
+    ).resolve_action()
+
+
+m2m_changed.connect(contests_users_changed, sender=Contests.users.through)

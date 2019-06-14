@@ -4,6 +4,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Конфигурационные параметры системы Ejudge
 
+# ID администратора в системе Ejudge
+EJUDGE_ADMIN_ID = 1
+
 # Полный путь к директории управления системой Ejudge
 EJUDGE_CONTROL_DIR = '/home/ejudge/inst-ejudge/bin/'
 

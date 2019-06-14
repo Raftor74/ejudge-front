@@ -28,6 +28,8 @@
               <th scope="col">Название</th>
               <th scope="col">Тип турнира</th>
               <th scope="col">Дата начала</th>
+              <th scope="col">Задач в турнире</th>
+              <th scope="col">Участников</th>
               <th scope="col" class="text-center">Доступ</th>
               {% if user.is_staff %}
                 <th scope="col">Скрыт</th>
@@ -42,6 +44,9 @@
                 <td>{{ contest.name }}</td>
                 <td>{{ contest.get_scope_system_display }}</td>
                 <td>{{ contest.start_time | date:"d.m.Y H:i:s" }}</td>
+                <td>{{ contest.problems.count }}</td>
+                {# -1 т.к Администратора не считаем #}
+                <td>{{ contest.users.count|add:"-1" }}</td>
                 <td class="text-center">
                   {% if contest.is_closed %}
                     <span class="contests-icons lock-icon" title="Закрытый">
