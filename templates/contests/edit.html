@@ -21,8 +21,101 @@
         </div>
         <div class="card">
           <div class="card-body">
-            <form id="contest-edit-form" @submit.prevent="submitForm" action="{% url 'contests_edit' contest_id=contest.pk %}" method="post" enctype="multipart/form-data">
+            <form id="contest-edit-form" @submit.prevent="submitForm"
+                  action="{% url 'contests_edit' contest_id=contest.pk %}" method="post" enctype="multipart/form-data">
+              <div class="form-row">
 
+                <!-- Название турнира -->
+                <div class="form-group col-12">
+                  <label for="name"><strong>Название</strong></label>
+                  <input id="name" v-validate="'required'" v-model="name" class="form-control" name="name" type="text">
+                  <small class="invalid-feedback">[[ errors.first('name') ]]</small>
+                </div>
+
+                <!-- Тип турнира -->
+                <div class="form-group col-12">
+                  <label for="scope_system"><strong>Тип турнира</strong></label>
+                  <select id="scope_system" v-validate="'required'" v-model="scope_system" class="form-control"
+                          name="scope_system">
+                    <option value="">Не выбран</option>
+                    {% for system in contests_types %}
+                      <option value="{{ system.0 }}">{{ system.1 }}</option>
+                    {% endfor %}
+                  </select>
+                  <small class="invalid-feedback">[[ errors.first('scope_system') ]]</small>
+                </div>
+
+                <!-- Дата начала турнира -->
+                <div class="form-group col-6">
+                  <label for="start_time"><strong>Дата и время начала турнира</strong></label>
+                  <input id="start_time" v-validate="'required|date_format:dd.MM.yyyy HH:mm'" v-model="start_time" class="form-control"
+                         name="start_time" type="text" placeholder="Формат: 01.01.2019 15:30">
+                  <small class="invalid-feedback">[[ errors.first('start_time') ]]</small>
+                </div>
+
+                <!-- Продолжительность турнира в минутах -->
+                <div class="form-group col-6">
+                  <label for="duration"><strong>Продолжительность (мин)</strong></label>
+                  <input id="duration" v-validate="'required|numeric'" v-model="duration" class="form-control"
+                         name="duration" type="text">
+                  <small class="invalid-feedback">[[ errors.first('duration') ]]</small>
+                </div>
+
+                <div class="form-group col-12">
+                  <!-- Доступность турнира -->
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="is_visible" v-model="is_visible">
+                    <label class="form-check-label" for="is_visible">Доступен для регистрации</label>
+                  </div>
+
+                  <!-- Закрытость турнира -->
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="is_closed" v-model="is_closed">
+                    <label class="form-check-label" for="is_closed">Закрытый турнир</label>
+                  </div>
+                </div>
+
+                <!-- Кодовое слово турнира -->
+                <div class="form-group col-12" v-show="is_closed">
+                  <label for="secret_word"><strong>Кодовое слово</strong></label>
+                  <input id="secret_word" v-model="secret_word" class="form-control" name="secret_word" type="text">
+                  <small class="invalid-feedback">[[ errors.first('secret_word') ]]</small>
+                </div>
+
+                <div class="form-group col-12">
+                  <label for="search_problem"><strong>Поиск задач</strong></label>
+                  <select2 :options="select2_options" v-model="select2_selected">
+                    <option disabled value="0">Введите название задачи для поиска</option>
+                  </select2>
+                </div>
+
+                <div class="col-12">
+                  <h3>Задачи в турнире</h3>
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Название</th>
+                      <th scope="col">#</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(value, index) in problems">
+                      <td>[[ value.id ]]</td>
+                      <td>[[ value.title ]]</td>
+                      <td>
+                        <span class="contests-icons delete-icon" @click.prevent="removeTask(index)"><i
+                                class="fa fa-times"></i></span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="col-12 mt-4">
+                  <button type="submit" class="btn btn-success">Создать</button>
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -33,4 +126,13 @@
 
 {% block additional_js %}
   <script src="{% static 'contests/js/edit.js' %}" defer></script>
+  <script type="text/x-template" id="select2-template">
+    <select class="form-control" id="search_problem">
+      <slot></slot>
+    </select>
+  </script>
+{% endblock %}
+
+{% block additional_css %}
+  <link rel="stylesheet" href="{% static 'contests/css/style.css' %}">
 {% endblock %}

@@ -44,6 +44,20 @@ class ContestValidator(ContestBase):
 
         return True
 
+    def validate_on_update(self):
+        try:
+            self.validate_name()\
+                .validate_scope_system()\
+                .validate_start_time()\
+                .validate_duration()\
+                .validate_problems()\
+                .validate_on_contest_exist()
+        except Exception as e:
+            self.validation_error = str(e)
+            return False
+
+        return True
+
     def validate_on_not_empty_string(self, string):
         return len(string) > 0
 
