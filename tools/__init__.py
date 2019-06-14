@@ -3,5 +3,7 @@ from .UserRegistration import UserRegistration
 from .EjudgeSystemControl import EjudgeSystemControl
 from .Decorators import *
 from .ProblemSerializer import ProblemSerializer
+from .ContestSerializer import ContestSerializer
 from .ProblemManager import ProblemCreate, ProblemUpdate
 from .ProblemDeploy import ProblemDeploy
+from .ContestCreate import ContestCreate, ContestUpdate

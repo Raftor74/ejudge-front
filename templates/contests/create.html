@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Создание турнира{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <h1>Создание турнира</h1>
+      </div>
+      <div class="col-12 mb-4">
+        <a href="{% url 'contests_index' %}" class="btn btn-primary">К списку турниров</a>
+      </div>
+      <div id="app" class="col-12">
+        <div id="form-error" class="alert alert-danger" v-show="error.length">
+          [[ error ]]
+          <button type="button" class="close" @click.prevent="clearNotifications" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <form id="contest-create-form" @submit.prevent="submitForm" action="{% url 'contests_create' %}" method="post" enctype="multipart/form-data">
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block additional_js %}
+  <script src="{% static 'contests/js/create.js' %}" defer></script>
+{% endblock %}

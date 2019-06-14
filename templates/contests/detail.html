@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}"{{ contest.name }}" - Просмотр турнира{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <h2>Турнир ID:{{ contest.pk }} "{{ contest.name }}"</h2>
+      </div>
+      <div class="col-12 mb-4">
+        <div class="float-right">
+          <a href="{% url 'contests_create' %}" class="btn btn-success">
+            <span><i class="fa fa-plus"></i> Создать турнир</span>
+          </a>
+          <a href="{% url 'contests_edit' contest_id=contest.pk %}" class="btn btn-warning">
+            <span><i class="fa fa-pencil-square-o"></i> Редактировать</span>
+          </a>
+        </div>
+        <div>
+          <a href="{% url 'contests_index' %}" class="btn btn-primary float-left">К списку турниров</a>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
