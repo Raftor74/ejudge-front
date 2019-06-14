@@ -3,3 +3,4 @@ from .UserRegistration import UserRegistration
 from .EjudgeSystemControl import EjudgeSystemControl
 from .Decorators import *
 from .ProblemSerializer import ProblemSerializer
+from .ProblemManager import ProblemCreate, ProblemUpdate

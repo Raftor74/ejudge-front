@@ -24,6 +24,7 @@
     initElements: function () {
       this.$application = $('#app');
       this.$form = $('#problem-create-form');
+      this.$formError = $('#form-error');
     },
 
     initApplication: function () {
@@ -49,7 +50,6 @@
         success: '',
         error: '',
         title: '',
-        description: '',
         epsilon: '',
         max_vm_size: 64,
         max_exec_time: 5,
@@ -119,12 +119,12 @@
 
             let data = {
               title: this.title,
-              description: this.description,
+              description: source.CKEDITOR.instances[source.descriptionId].getData(),
               epsilon: this.epsilon,
               max_vm_size: this.max_vm_size,
               max_exec_time: this.max_exec_time,
               checker: this.checker,
-              is_visible: this.is_visible,
+              is_visible: (this.is_visible) ? "Y" : "",
               tests_examples: JSON.stringify(this.clearEmptyTests(this.tests_examples)),
               tests: JSON.stringify(this.clearEmptyTests(this.tests)),
             };
@@ -132,6 +132,7 @@
             $.post(this.apiRoute, data).done(response => {
               if (response.status !== 'ok') {
                 this.setError(response.error);
+                source.JSSnippets.focusOnElement(source.$formError);
                 return false;
               }
 
