@@ -19,7 +19,7 @@ class ProblemDeploy(object):
         self.problem = problem
         self.problem_dir = os.path.join(deploy_path, short_id)
         self.tests_dir = os.path.join(self.problem_dir, self.TESTS_DIR_NAME)
-        self.problem_config = self.set_problem_config()
+        self.problem_config = ''
 
     def create_directory(self, dir_path):
         try:
@@ -141,6 +141,7 @@ class ProblemDeploy(object):
         self.create_problem_dirs()
         self.create_problem_description_file()
         self.create_problem_tests()
+        self.set_problem_config()
         pass
 
     def remove(self):

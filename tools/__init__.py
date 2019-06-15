@@ -7,3 +7,4 @@ from .ContestSerializer import ContestSerializer
 from .ProblemManager import ProblemCreate, ProblemUpdate
 from .ProblemDeploy import ProblemDeploy
 from .ContestUserRegister import ContestUserRegister
+from .FileManager import FileManager

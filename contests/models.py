@@ -31,6 +31,16 @@ class Contests(models.Model):
         return os.path.join(settings.EJUDGE_CONTESTS_DIR, self.ejudge_id)
 
     @property
+    def var_dir(self):
+        return os.path.join(self.contest_dir, 'var')
+
+    @property
+    def included_var_dirs(self):
+        dirs_list = ["archive", "run", "status", "team_extra", "work"]
+        dirs_paths = [os.path.join(self.var_dir, var_dir) for var_dir in dirs_list]
+        return dirs_paths
+
+    @property
     def config_dir(self):
         return os.path.join(self.contest_dir, 'conf')
 
