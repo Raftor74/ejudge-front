@@ -25,7 +25,77 @@
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-
+            <h5 class="mb-4">Данные турнира</h5>
+            <table class="table mb-4">
+              <tbody>
+                <tr>
+                  <th scope="row">Название</th>
+                  <td>{{ contest.name }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Тип турнира</th>
+                  <td>{{ contest.get_scope_system_display }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Дата начала</th>
+                  <td>{{ contest.start_time | date:"d.m.Y H:i" }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Продолжительность</th>
+                  <td>{{ contest.duration_formatted }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Доступен в списке</th>
+                  <td>{% if contest.is_visible %} Да {% else %} Нет {% endif %}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Закрытый</th>
+                  <td>{% if contest.is_closed %} Да {% else %} Нет {% endif %}</td>
+                </tr>
+              </tbody>
+            </table>
+            <h5 class="mb-4">Список задач</h5>
+            <table class="table mb-4">
+              <thead>
+              <tr>
+                <th scope="col">№</th>
+                <th scope="col">ID</th>
+                <th scope="col">Название</th>
+              </tr>
+              </thead>
+              <tbody>
+                {% for problem in contest.problems.all %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ problem.pk }}</td>
+                  <td>{{ problem.title }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <h5 class="mb-4">Список участников</h5>
+            <table class="table mb-4">
+              <thead>
+              <tr>
+                <th scope="col">№</th>
+                <th scope="col">ID</th>
+                <th scope="col">Логин</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Имя</th>
+              </tr>
+              </thead>
+              <tbody>
+                {% for contest_user in contest.users.all %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ contest_user.pk }}</td>
+                  <td>{{ contest_user.username }} {% if contest_user.is_superuser %} (Администратор){% endif %}</td>
+                  <td>{{ contest_user.last_name }}</td>
+                  <td>{{ contest_user.first_name }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

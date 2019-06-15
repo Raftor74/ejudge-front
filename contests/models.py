@@ -46,6 +46,14 @@ class Contests(models.Model):
     def xml_config(self):
         return os.path.join(settings.EJUDGE_CONTESTS_CONFIG_DIR, "{}.xml".format(self.ejudge_id))
 
+    @property
+    def duration_formatted(self):
+        hours = str(self.duration // 60)
+        minutes = str(self.duration % 60)
+        hours = '0' + hours if len(hours) == 1 else hours
+        minutes = '0' + minutes if len(minutes) == 1 else minutes
+        return "{}:{}:00".format(hours, minutes)
+
     def __str__(self):
         return "%s" % self.name
 
