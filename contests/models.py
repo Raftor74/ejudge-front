@@ -27,6 +27,10 @@ class Contests(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, verbose_name="Дата обновления")
 
     @property
+    def ejudge_link(self):
+        return ContestDeployChecker(self).get_ejudge_link()
+
+    @property
     def is_deployed(self):
         return ContestDeployChecker(self).is_deployed()
 

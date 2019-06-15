@@ -6,6 +6,13 @@ class ContestDeployChecker(FileManager):
     def __init__(self, contest):
         self.instance = contest
 
+    def get_ejudge_link(self):
+        if not len(self.instance.ejudge_id):
+            return ''
+        ejudge_id = str(int(self.instance.ejudge_id))
+
+        return "/cgi-bin/new-client?contest_id={}&locale_id=1".format(ejudge_id)
+
     def is_deployed(self):
         if not len(self.instance.ejudge_id):
             return True
