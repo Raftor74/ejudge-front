@@ -52,6 +52,18 @@
                   <th scope="row">Закрытый</th>
                   <td>{% if contest.is_closed %} Да {% else %} Нет {% endif %}</td>
                 </tr>
+                <tr>
+                  <th scope="row">
+                    <a href="#secret-word"
+                       data-toggle="collapse"
+                       role="button"
+                       aria-expanded="false"
+                       aria-controls="secret-word">Кодовое слово <i class="fa fa-eye"></i></a>
+                  </th>
+                  <td>
+                    <span id="secret-word" class="collapse">{{ contest.secret_word }}</span>
+                  </td>
+                </tr>
               </tbody>
             </table>
             <h5 class="mb-4">Список задач</h5>
