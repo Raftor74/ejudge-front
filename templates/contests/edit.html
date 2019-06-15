@@ -11,6 +11,12 @@
       </div>
       <div class="col-12 mb-4">
         <a href="{% url 'contests_index' %}" class="btn btn-primary">К списку турниров</a>
+        <a href="{% url 'contests_deploy' contest_id=contest.pk %}" class="btn btn-primary float-right">
+          <span><i class="fa fa-download"></i> Развернуть</span>
+        </a>
+        <a href="{% url 'contests_detail' contest_id=contest.pk %}" class="btn btn-primary float-right mr-2">
+          <span><i class="fa fa-eye"></i> Просмотреть</span>
+        </a>
       </div>
       <div id="app" class="col-12">
         <div id="form-error" class="alert alert-danger" v-show="error.length">

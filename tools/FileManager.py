@@ -10,7 +10,7 @@ class FileManager(object):
         return os.path.isdir(dir_path)
 
     def is_file_exist(self, dir_path):
-        return os.path.isdir(dir_path)
+        return os.path.isfile(dir_path)
 
     def remove_file(self, file_path):
         if os.path.isfile(file_path):

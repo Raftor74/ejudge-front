@@ -72,6 +72,11 @@
                       <span class="contests-icons"><i class="fa fa-pencil-square-o"></i></span>
                     </a>
                   </td>
+                  <td>
+                    <a href="{% url 'contests_deploy' contest_id=contest.pk %}" class="" title="Развертывание">
+                      <span class="contests-icons"><i class="fa fa-download"></i></span>
+                    </a>
+                  </td>
                 {% endif %}
               </tr>
             {% endfor %}
