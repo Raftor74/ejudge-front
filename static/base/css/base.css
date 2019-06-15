@@ -5,3 +5,21 @@ main > .container {
 .footer-copyright {
   color: #ffffff;
 }
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: red;
+}
+
+.flex-card {
+  min-height: 100%;
+}
+
+.process-active-text {
+  color: #6eac2c;
+}
+
+.process-stopped-text {
+  color: #cc1111;
+}

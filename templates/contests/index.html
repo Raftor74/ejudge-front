@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Список турниров{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <h1>Список турниров</h1>
+      </div>
+      <div class="col-12 mb-4">
+        <div>
+          {% if request.user.is_superuser %}
+          <a href="{% url 'contests_create' %}" class="btn btn-success float-right">
+            <span><i class="fa fa-plus"></i> Создать турнир</span>
+          </a>
+          {% endif %}
+          <a href="{% url 'problems_index' %}" class="btn btn-primary float-left">К списку задач</a>
+        </div>
+      </div>
+      <div class="col-12">
+        {% if contests %}
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Название</th>
+              <th scope="col">Тип турнира</th>
+              <th scope="col">Дата начала</th>
+              <th scope="col">Задач в турнире</th>
+              <th scope="col">Участников</th>
+              <th scope="col" class="text-center">Доступ</th>
+              {% if user.is_staff %}
+                <th scope="col">Скрыт</th>
+                <th scope="col">Развёрнут</th>
+              {% endif %}
+              <th scope="col" colspan="2">
+                {% if not user.is_superuser %}Регистрация{% else %}#{% endif %}
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for contest in contests %}
+              <tr>
+                <td>{{ contest.pk }}</td>
+                <td>{{ contest.name }}</td>
+                <td>{{ contest.get_scope_system_display }}</td>
+                <td>{{ contest.start_time | date:"d.m.Y H:i" }}</td>
+                <td>{{ contest.problems.count }}</td>
+                {# -1 т.к Администратора не считаем #}
+                <td>{{ contest.users.count|add:"-1" }}</td>
+                <td class="text-center">
+                  {% if contest.is_closed %}
+                    <span class="contests-icons lock-icon" title="Закрытый">
+                      <i class="fa fa-lock"></i>
+                    </span>
+                  {% else %}
+                    <span class="contests-icons lock-icon" title="Открытый">
+                      <i class="fa fa-unlock"></i>
+                    </span>
+                  {% endif %}
+                </td>
+                {% if user.is_staff %}
+                  <td>{% if not contest.is_visible %} Да {% else %} Нет {% endif %}</td>
+                  <td>{% if contest.is_deployed %} Да {% else %} Нет {% endif %}</td>
+                {% endif %}
+                {% if user.is_superuser %}
+                  <td>
+                    <a href="{% url 'contests_detail' contest_id=contest.pk %}" class="" title="Просмотр">
+                      <span class="contests-icons"><i class="fa fa-eye"></i></span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url 'contests_edit' contest_id=contest.pk %}" class="" title="Редактирование">
+                      <span class="contests-icons"><i class="fa fa-pencil-square-o"></i></span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url 'contests_deploy' contest_id=contest.pk %}" class="" title="Развертывание">
+                      <span class="contests-icons"><i class="fa fa-download"></i></span>
+                    </a>
+                  </td>
+                {% endif %}
+                {% if not user.is_superuser %}
+                  <td>
+                    {% if contest.is_deployed %}
+                      <a href="{% url 'contests_register' contest_id=contest.pk %}" class="btn btn-primary">Записаться</a>
+                    {% else %}
+                      Временно недоступен
+                    {% endif %}
+                  </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+
+          {% include 'pagination/paginator.html' with objects=contests %}
+
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block additional_js %}
+  <script src="{% static 'contests/js/script.js' %}" defer></script>
+{% endblock %}
+
+{% block additional_css %}
+  <link rel="stylesheet" href="{% static 'contests/css/style.css' %}">
+{% endblock %}

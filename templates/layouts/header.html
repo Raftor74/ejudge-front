@@ -1,18 +1,58 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <a class="navbar-brand ml-5" href="{% url 'index' %}">{{ SITE_NAME }}</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-      <div class="navbar-nav mr-auto"></div>
       <ul class="navbar-nav mr-5">
         <li class="nav-item mr-2">
-          <a class="nav-link" href="#">Вход</a>
+            <a class="nav-link" href="/">Главная</a>
         </li>
-        <li class="nav-item mr-2">
-          <a class="nav-link" href="#">Регистрация</a>
-        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+               aria-expanded="false">Меню</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'contests_index' %}">Список турниров</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'problems_index' %}">Список задач</a>
+            </div>
+          </li>
+        {% endif %}
+      </ul>
+
+      <div class="navbar-nav mr-auto"></div>
+      <ul class="navbar-nav mr-5">
+        {% if user.is_staff %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+               aria-expanded="false">Администрирование</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="/admin/" target="_blank">Управление сайтом</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'system_control' %}">Управление системой</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/cgi-bin/serve-control" target="_blank">Панель системы Ejudge</a>
+            </div>
+          </li>
+        {% endif %}
+        {% if not user.is_authenticated %}
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="{% url 'login' %}">Вход</a>
+          </li>
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="{% url 'registration' %}">Регистрация</a>
+          </li>
+        {% else %}
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="{% url 'profile' %}">Профиль</a>
+          </li>
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+          </li>
+        {% endif %}
       </ul>
     </div>
   </nav>

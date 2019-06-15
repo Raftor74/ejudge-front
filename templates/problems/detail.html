@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}ID:{{ problem.pk }} "{{ problem.title }}" - Просмотр задачи{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <h2>Задача ID:{{ problem.pk }} "{{ problem.title }}"</h2>
+      </div>
+      <div class="col-12 mb-4">
+        {% if user.is_staff %}
+          <div class="float-right">
+            <a href="{% url 'problems_create' %}" class="btn btn-success">
+              <span><i class="fa fa-plus"></i> Создать задачу</span>
+            </a>
+            <a href="{% url 'problems_edit' task_id=problem.pk %}" class="btn btn-warning">
+              <span><i class="fa fa-pencil-square-o"></i> Редактировать</span>
+            </a>
+          </div>
+        {% endif %}
+        <div>
+          <a href="{% url 'problems_index' %}" class="btn btn-primary float-left">К списку задач</a>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">
+              <span>Название: {{ problem.title }}</span>
+              <span class="float-right">Память: {{ problem.max_vm_size }} мб. Время: {{ problem.max_exec_time }} сек.</span>
+            </h4>
+            <p class="card-text">
+              {{ problem.description | safe }}
+            </p>
+            <table class="table table-bordered mt-4">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-center">Входные данные</th>
+                  <th scope="col" class="text-center">Выходные данные</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for example_test in problem.tests_examples %}
+                <tr>
+                  <td style="white-space: pre-wrap;">{{ example_test.input }}</td>
+                  <td style="white-space: pre-wrap;">{{ example_test.output }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

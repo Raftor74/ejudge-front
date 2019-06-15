@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Список задач{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <h1>Список задач</h1>
+      </div>
+      <div class="col-12 mb-4">
+        {% if request.user.is_staff %}
+          <a href="{% url 'problems_create' %}" class="btn btn-success float-right">
+            <span><i class="fa fa-plus"></i> Создать задачу</span>
+          </a>
+        {% endif %}
+        <a href="{% url 'contests_index' %}" class="btn btn-primary float-left">К списку турниров</a>
+      </div>
+      <div class="col-12">
+        {% if problems %}
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Название</th>
+              <th scope="col">Ограничение по времени (сек)</th>
+              <th scope="col">Ограничение по памяти (Мб)</th>
+              <th scope="col">Дата создания</th>
+              {% if user.is_staff %}
+                <th scope="col">Скрыта</th>
+              {% endif %}
+              <th scope="col" colspan="3" class="text-center">#</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for problem in problems %}
+              <tr>
+                <td>{{ problem.pk }}</td>
+                <td>{{ problem.title }}</td>
+                <td>{{ problem.max_exec_time }}</td>
+                <td>{{ problem.max_vm_size }}</td>
+                <td>{{ problem.created_at | date:"d.m.Y H:i:s" }}</td>
+                {% if user.is_staff %}
+                  <td>{% if not problem.is_visible %} Да {% else %} Нет {% endif %}</td>
+                {% endif %}
+                <td>
+                  <a href="{% url 'problems_detail' task_id=problem.pk %}" class="" title="Просмотр">
+                    <span class="problems-icons"><i class="fa fa-eye"></i></span>
+                  </a>
+                </td>
+                {% if user.is_staff %}
+                  <td>
+                    <a href="{% url 'problems_edit' task_id=problem.pk %}" class="" title="Редактирование">
+                      <span class="problems-icons"><i class="fa fa-pencil-square-o"></i></span>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{% url 'problems_delete' task_id=problem.pk %}" class="" title="Удаление">
+                      <span class="problems-icons delete-problem-icon"><i class="fa fa-times"></i></span>
+                    </a>
+                  </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+
+          {% include 'pagination/paginator.html' with objects=problems %}
+
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block additional_js %}
+  <script src="{% static 'problems/js/script.js' %}" defer></script>
+{% endblock %}
+
+{% block additional_css %}
+  <link rel="stylesheet" href="{% static 'problems/css/style.css' %}">
+{% endblock %}

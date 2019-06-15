@@ -4,11 +4,80 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-<div class="container">
-  <h1>Hello World!</h1>
-</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-4">
+        <img class="logo-images rounded-circle float-left" src="{% static 'main/images/c_plus_plus.png' %}" alt="C++">
+      </div>
+      <div class="col-4">
+        <img class="logo-images rounded-circle mx-auto d-block" src="{% static 'main/images/c_sharp.jpeg' %}"
+             alt="C_Sharp">
+      </div>
+      <div class="col-4">
+        <img class="logo-images rounded-circle float-right" src="{% static 'main/images/python.png' %}" alt="Python">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 mt-5">
+        <div class="page_header">
+          <h1>Добро пожаловать на {{ SITE_NAME }}!</h1>
+        </div>
+        <div class="page_body mt-5">
+          <div class="page_cards">
+            <div class="row">
+              <div class="col-4">
+                <div class="card">
+                  <img class="card-img-top" src="{% static 'main/images/olymp.jpg' %}" alt="Олимпиада">
+                  <div class="card-body">
+                    <h5 class="card-title">Олимпиады</h5>
+                    <p class="card-text">
+                      На сайте проводятся олимпиадные соревнования по программированию на следующих языках:
+                      <br>
+                      <strong>Pascal, C, C++, C#, Prolog, Java, Python 2.7, Python 3</strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="card">
+                  <img class="card-img-top" src="{% static 'main/images/olymp.jpg' %}" alt="Контрольная работа">
+                  <div class="card-body">
+                    <h5 class="card-title">Контрольные работы</h5>
+                    <p class="card-text">
+                      Сайт позволяет организовывать контрольные работы по курсам ЯП в виде небольших олимпиадных турниров
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="card">
+                  <img class="card-img-top" src="{% static 'main/images/olymp.jpg' %}" alt="Учебные курсы">
+                  <div class="card-body">
+                    <h5 class="card-title">Учебные курсы</h5>
+                    <p class="card-text">
+                      Разрабатывается учебный материал по курсам языков программирования, алгоритмам
+                      и многим другим важным для программиста темам
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-5">
+        <div class="page_footer">
+          <a href="{% url 'login' %}" class="btn btn-primary btn-lg" role="button">Вперёд к знаниям!</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block additional_js %}
   <script src="{% static 'main/js/script.js' %}" defer></script>
+{% endblock %}
+
+{% block additional_css %}
+  <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
 {% endblock %}

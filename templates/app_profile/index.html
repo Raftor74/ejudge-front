@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Мой профиль{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <h1>Привет, {% if user.first_name %} {{ user.first_name }} {% else %} {{ user.username }}{% endif %}!</h1>
+      </div>
+      <div class="col-sm-6">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" colspan="2">Ваши учетные данные</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Логин</th>
+              <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Имя</th>
+              <td>{{ user.first_name }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Фамилия</th>
+              <td>{{ user.last_name }}</td>
+            </tr>
+            <tr>
+              <th scope="row">E-mail</th>
+              <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Дата регистрации</th>
+              <td>{{ user.date_joined }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Роль</th>
+              <td>{% if user.is_staff or user.is_superuser %}Администратор{% else %}Пользователь{% endif %}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-6">
+        <div class="card float-right">
+          <div class="card-body">
+            <h5 class="card-title">Олимпиадные турниры в системе</h5>
+            <p class="card-text">Зарегистрирован на: {{ user.contest_users.count }}</p>
+            <p class="card-text">Всего доступно: {{ count_contests }}</p>
+            <a href="{% url 'contests_index' %}" class="btn btn-primary">Открыть список турниров</a>
+            <a href="{% url 'problems_index' %}" class="btn btn-primary">Открыть список задач</a>
+          </div>
+        </div>
+      </div>
+      {% if not user.is_superuser %}
+      <div class="col-12 mt-4">
+        <h3>Турниры в которых я участвую</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Название</th>
+              <th scope="col">Тип турнира</th>
+              <th scope="col">Дата начала</th>
+              <th scope="col">Задач в турнире</th>
+              <th scope="col">Участников</th>
+              <th scope="col">Переход</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for contest in user_contests %}
+              <tr>
+                <td>{{ contest.pk }}</td>
+                <td>{{ contest.name }}</td>
+                <td>{{ contest.get_scope_system_display }}</td>
+                <td>{{ contest.start_time | date:"d.m.Y H:i" }}</td>
+                <td>{{ contest.problems.count }}</td>
+                <td>{{ contest.users.count|add:"-1" }}</td>
+                <td>
+                  {% if contest.is_deployed %}
+                    <a href="{{ contest.ejudge_link }}">Перейти</a>
+                  {% else %}
+                    Турнир недоступен
+                  {% endif %}
+                </td>
+              </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        {% include 'pagination/paginator.html' with objects=user_contests %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block additional_js %}
+  <script src="{% static 'main/js/script.js' %}" defer></script>
+{% endblock %}

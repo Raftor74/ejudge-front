@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Создание задачи{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <h1>Создание задачи</h1>
+      </div>
+      <div class="col-12 mb-4">
+        <a href="{% url 'problems_index' %}" class="btn btn-primary">К списку задач</a>
+      </div>
+      <div id="app" class="col-12">
+        <div id="form-error" class="alert alert-danger" v-show="error.length">
+          [[ error ]]
+          <button type="button" class="close" @click.prevent="clearNotifications" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <form id="problem-create-form" @submit.prevent="submitForm" action="{% url 'problems_create' %}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row">
+
+                <!-- Название задачи -->
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="title"><strong>Название задачи</strong></label>
+                    <input id="title" v-validate="'required'" v-model="title" class="form-control" name="title" type="text">
+                    <small class="invalid-feedback">[[ errors.first('title') ]]</small>
+                  </div>
+                </div>
+
+                <!-- Описание задачи -->
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="description"><strong>Описание задачи</strong></label>
+                    <textarea id="description" rows="12" class="form-control" name="description"></textarea>
+                  </div>
+                </div>
+
+                <!-- Ограничение по памяти -->
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="max_vm_size"><strong>Ограничение по памяти (Мб)</strong></label>
+                    <input type="number" v-validate="'required|numeric'" id="max_vm_size" v-model="max_vm_size" class="form-control" name="max_vm_size">
+                    <small class="invalid-feedback">[[ errors.first('max_vm_size') ]]</small>
+                  </div>
+                </div>
+
+                <!-- Ограничение по времени -->
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="max_exec_time"><strong>Ограничение по времени (сек)</strong></label>
+                    <input type="number" v-validate="'required|numeric'" id="max_exec_time" v-model="max_exec_time" class="form-control" name="max_exec_time">
+                    <small class="invalid-feedback">[[ errors.first('max_exec_time') ]]</small>
+                  </div>
+                </div>
+
+                <!-- Точность -->
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="epsilon"><strong>Точность</strong></label>
+                    <input type="text" id="epsilon" v-model="epsilon" class="form-control" name="epsilon">
+                  </div>
+                </div>
+
+                <!-- Чекер -->
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="checker"><strong>Тип сравнения ответов</strong></label>
+                    <select class="form-control" name="checker" v-model="checker" id="checker" v-validate="'required'">
+                      <option value="">Не выбран</option>
+                      {% for checker in checkers %}
+                        <option value="{{ checker.0 }}">{{ checker.1 }}</option>
+                      {% endfor %}
+                    </select>
+                    <small class="invalid-feedback">[[ errors.first('checker') ]]</small>
+                  </div>
+                  <div class="mt-2 mb-2"><strong>Видимость задачи в списке</strong></div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="is_visible" v-model="is_visible">
+                    <label class="form-check-label" for="is_visible">
+                      Видна для пользователей
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-12 mt-4 mb-3">
+                  <h3 class="float-left">Тестовые данные задачи</h3>
+                  <button @click.prevent="clearEmptyTestsExamples" class="btn btn-danger float-right">
+                    <i class="fa fa-trash-o"></i> Удалить пустые строки
+                  </button>
+                  <button @click.prevent="addEmptyTestExample" class="btn btn-success float-right mr-2"><i class="fa fa-plus"></i> Добавить строку</button>
+                </div>
+
+                <!-- Тестовые входные / выходные данные -->
+                <div class="col-12">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-center">Входные данные</th>
+                        <th scope="col" class="text-center">Выходные данные</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="test_example in tests_examples">
+                        <td>
+                          <textarea v-model="test_example.input" class="form-control"></textarea>
+                        </td>
+                        <td>
+                          <textarea v-model="test_example.output" class="form-control"></textarea>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="col-12 mt-3 mb-3">
+                  <h3 class="float-left">Реальные данные задачи</h3>
+                  <button @click.prevent="clearEmptyTestsReal" class="btn btn-danger float-right">
+                    <i class="fa fa-trash-o"></i> Удалить пустые строки
+                  </button>
+                  <button @click.prevent="addEmptyTest" class="btn btn-success float-right mr-2"><i class="fa fa-plus"></i> Добавить строку</button>
+                </div>
+
+                <!-- Реальные входные / выходные данные -->
+                <div class="col-12">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-center">Входные данные</th>
+                        <th scope="col" class="text-center">Выходные данные</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="test in tests">
+                        <td>
+                          <textarea v-model="test.input" class="form-control"></textarea>
+                        </td>
+                        <td>
+                          <textarea v-model="test.output" class="form-control"></textarea>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="col-12 mt-4">
+                  <button type="submit" class="btn btn-success">Создать</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block additional_js %}
+  <script src="{% static 'problems/js/create.js' %}" defer></script>
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}" defer></script>
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}" defer></script>
+{% endblock %}

@@ -23,6 +23,9 @@ class Logins(models.Model):
     pwdtime = models.DateTimeField(auto_now_add=True, blank=True)
     changetime = models.DateTimeField(auto_now_add=True, blank=True)
 
+    def __str__(self):
+        return self.login
+
     class Meta:
         db_table = 'logins'
         ordering = ['user_id']
@@ -77,6 +80,9 @@ class Users(models.Model):
     field7 = models.CharField(max_length=512, blank=True, null=True)
     field8 = models.CharField(max_length=512, blank=True, null=True)
     field9 = models.CharField(max_length=512, blank=True, null=True)
+
+    def __str__(self):
+        return "Имя: {} Контест: {}".format(self.username, self.contest_id)
 
     class Meta:
         db_table = 'users'

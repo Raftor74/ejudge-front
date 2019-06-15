@@ -24,7 +24,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
+    'ckeditor_uploader',
     'ejudge_models',
+    'ejudge_users',
+    'app_auth',
+    'app_profile',
+    'system_control',
+    'contests',
+    'problems',
+    'api',
     'main',
 ]
 
@@ -74,3 +83,19 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGIN_URL = '/auth/login/'
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 400,
+        'width': 900,
+        'removePlugins': 'stylesheetparser',
+        'extraPlugins': 'codesnippet',
+    },
+}

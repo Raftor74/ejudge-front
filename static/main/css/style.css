@@ -1,0 +1,12 @@
+.logo-images {
+    max-width: 220px;
+    max-height: 220px;
+}
+
+.page_header, .page_footer {
+    text-align: center;
+}
+
+.page_cards .card {
+    min-height: 100%;
+}
