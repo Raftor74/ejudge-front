@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}ID:{{ contest.pk }} "{{ contest.name }}" - Регистрация на турнир{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-12 mb-4">
+        <h2>Регистрация на турнир "{{ contest.name }}"</h2>
+      </div>
+      <div class="col-12 mb-4">
+        <a href="{% url 'contests_index' %}" class="btn btn-primary">К списку турниров</a>
+      </div>
+      <div id="app" class="col-12">
+        <form id="register-form" onsubmit="return false;" action="{% url 'contests_register' contest_id=contest.pk %}"
+              method="post">
+          <div class="col-12">
+
+          </div>
+
+          <div class="col-12">
+            <button type="button" @click.prevent="submitForm" class="btn btn-success">Зарегистрироваться</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block additional_js %}
+  <script src="{% static 'contests/js/register.js' %}" defer></script>
+{% endblock %}

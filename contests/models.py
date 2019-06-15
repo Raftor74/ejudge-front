@@ -6,7 +6,7 @@ from ejudge_models.models import Cntsregs
 from problems.models import Problems
 from django.db.models.signals import m2m_changed
 from django.db.models.signals import pre_delete
-from tools import ContestUserRegister
+from tools import ContestUserRegister, ContestDeployChecker
 from django.dispatch import receiver
 
 
@@ -25,6 +25,10 @@ class Contests(models.Model):
     users = models.ManyToManyField(User, null=True, related_name='contest_users', verbose_name="Участники")
     created_at = models.DateTimeField(auto_now_add=True, blank=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, blank=True, verbose_name="Дата обновления")
+
+    @property
+    def is_deployed(self):
+        return ContestDeployChecker(self).is_deployed()
 
     @property
     def contest_dir(self):

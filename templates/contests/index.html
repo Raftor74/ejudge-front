@@ -33,8 +33,11 @@
               <th scope="col" class="text-center">Доступ</th>
               {% if user.is_staff %}
                 <th scope="col">Скрыт</th>
+                <th scope="col">Развёрнут</th>
               {% endif %}
-              <th scope="col" colspan="2">#</th>
+              <th scope="col" colspan="2">
+                {% if not user.is_superuser %}Регистрация{% else %}#{% endif %}
+              </th>
             </tr>
             </thead>
             <tbody>
@@ -60,6 +63,7 @@
                 </td>
                 {% if user.is_staff %}
                   <td>{% if not contest.is_visible %} Да {% else %} Нет {% endif %}</td>
+                  <td>{% if contest.is_deployed %} Да {% else %} Нет {% endif %}</td>
                 {% endif %}
                 {% if user.is_superuser %}
                   <td>
@@ -76,6 +80,15 @@
                     <a href="{% url 'contests_deploy' contest_id=contest.pk %}" class="" title="Развертывание">
                       <span class="contests-icons"><i class="fa fa-download"></i></span>
                     </a>
+                  </td>
+                {% endif %}
+                {% if not user.is_superuser %}
+                  <td>
+                    {% if contest.is_deployed %}
+                      <a href="{% url 'contests_register' contest_id=contest.pk %}" class="btn btn-primary">Записаться</a>
+                    {% else %}
+                      Временно недоступен
+                    {% endif %}
                   </td>
                 {% endif %}
               </tr>
