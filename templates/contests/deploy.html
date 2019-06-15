@@ -19,6 +19,18 @@
         </a>
       </div>
       <div id="app" class="col-12">
+        <div id="form-error" class="alert alert-danger" v-show="error.length">
+          [[ error ]]
+          <button type="button" class="close" @click.prevent="clearNotifications" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="form-success" class="alert alert-success" v-show="success.length">
+          [[ success ]]
+          <button type="button" class="close" @click.prevent="clearNotifications" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <form id="deploy-form" onsubmit="return false;" action="{% url 'contests_deploy' contest_id=contest.pk %}"
               method="post">
           <div class="col-12">

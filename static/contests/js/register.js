@@ -17,11 +17,13 @@
       this.JSSnippets = window.JSSnippets;
       this.application = null;
       this.apiRoute = '';
+      this.username = this.JSSnippets.getPropertyOrDefault(window.username, '');
     },
 
     initElements: function () {
       this.$application = $('#app');
       this.$form = $('#register-form');
+      this.$formError = $('#form-error');
     },
 
     initApplication: function () {
@@ -47,6 +49,7 @@
         success: '',
         error: '',
         secret_word: '',
+        username: source.username,
       };
       const methods = {
         setSuccess: function (text) {
@@ -64,7 +67,23 @@
         },
 
         submitForm: function () {
+          this.error = '';
+          this.$validator.validate().then(valid => {
+            if (!valid) {
+              return false;
+            }
 
+            let data = this.$data;
+
+            $.post(this.apiRoute, data).done(response => {
+              if (response.status !== 'ok') {
+                this.error = response.error;
+                return false;
+              }
+
+              window.location.href = response.data.redirect;
+            });
+          });
         },
 
       };

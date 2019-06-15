@@ -12,16 +12,32 @@
       <div class="col-12 mb-4">
         <a href="{% url 'contests_index' %}" class="btn btn-primary">К списку турниров</a>
       </div>
-      <div id="app" class="col-12">
+      <div id="app" class="col-6">
+        <div id="form-error" class="alert alert-danger" v-show="error.length">
+          [[ error ]]
+          <button type="button" class="close" @click.prevent="clearNotifications" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <form id="register-form" onsubmit="return false;" action="{% url 'contests_register' contest_id=contest.pk %}"
               method="post">
-          <div class="col-12">
+          {% csrf_token %}
 
+          <div class="form-group">
+            <label for="username"><strong>Название участника или команды</strong></label>
+            <input id="username" v-validate="'required'" v-model.trim="username" class="form-control" name="username" type="text" required>
+            <small class="invalid-feedback">[[ errors.first('username') ]]</small>
           </div>
 
-          <div class="col-12">
-            <button type="button" @click.prevent="submitForm" class="btn btn-success">Зарегистрироваться</button>
+          {% if contest.is_closed %}
+          <div class="form-group">
+            <label for="secret_word"><strong>Кодовое слово для доступа к соревнованию</strong></label>
+            <input id="secret_word" v-model="secret_word" class="form-control" name="secret_word" type="text" required>
           </div>
+          {% endif %}
+
+
+          <button type="button" @click.prevent="submitForm" class="btn btn-success">Зарегистрироваться</button>
         </form>
       </div>
     </div>
@@ -30,4 +46,5 @@
 
 {% block additional_js %}
   <script src="{% static 'contests/js/register.js' %}" defer></script>
+  <script>var username = '{{ user.last_name }}' + ' ' + '{{ user.first_name }}';</script>
 {% endblock %}

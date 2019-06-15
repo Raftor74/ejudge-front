@@ -22,6 +22,7 @@
     initElements: function () {
       this.$application = $('#app');
       this.$form = $('#deploy-form');
+      this.$formError = $('#form-error');
     },
 
     initApplication: function () {
