@@ -35,6 +35,6 @@ class EditView(View):
             response = Response(response_status, response_error, {}).get()
             return JsonResponse(response)
 
-        data = {'redirect': reverse('contest_detail', kwargs={'contest_id': contest_id})}
+        data = {'redirect': reverse('contests_detail', kwargs={'contest_id': contest_id})}
         response = Response(Response.STATUS_OK, "", data).get()
         return JsonResponse(response)

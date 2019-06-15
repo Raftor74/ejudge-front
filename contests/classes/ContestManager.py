@@ -1,4 +1,5 @@
 import json
+from django.utils.timezone import make_aware
 from datetime import datetime
 from problems.models import Problems
 from ejudge_models.models import Logins
@@ -152,7 +153,7 @@ class ContestCreate(ContestValidator):
         return ejudge_id
 
     def get_start_time(self):
-        return datetime.strptime(self.start_time, self.start_time_format)
+        return make_aware(datetime.strptime(self.start_time, self.start_time_format))
 
     def get_ejudge_admin(self):
         ejudge_user = Logins.objects.get(pk=settings.EJUDGE_ADMIN_ID)
@@ -196,8 +197,34 @@ class ContestUpdate(ContestCreate):
 
     def __init__(self, contest_id, post_data):
         super().__init__(post_data)
-        pass
+        self.id = contest_id
 
     def update_contest(self):
-        pass
+        if not self.validate_on_update():
+            self.last_error = self.validation_error
+            return False
 
+        problems = self.get_contest_problems()
+        admin_user = self.get_ejudge_admin()
+        start_time = self.get_start_time()
+        duration = int(self.duration)
+
+        try:
+            contest = Contests.objects.get(pk=self.id)
+            contest.name = self.name
+            contest.scope_system = self.scope_system
+            contest.start_time = start_time
+            contest.duration = duration
+            contest.is_closed = bool(self.is_closed)
+            contest.is_visible = bool(self.is_visible)
+            contest.secret_word = self.secret_word
+            contest.save()
+
+            contest.problems.clear()
+            contest.problems.add(*problems)
+            contest.users.add(admin_user)
+        except Exception as e:
+            self.last_error = str(e)
+            return False
+
+        return contest

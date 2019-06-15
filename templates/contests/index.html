@@ -43,7 +43,7 @@
                 <td>{{ contest.pk }}</td>
                 <td>{{ contest.name }}</td>
                 <td>{{ contest.get_scope_system_display }}</td>
-                <td>{{ contest.start_time | date:"d.m.Y H:i:s" }}</td>
+                <td>{{ contest.start_time | date:"d.m.Y H:i" }}</td>
                 <td>{{ contest.problems.count }}</td>
                 {# -1 т.к Администратора не считаем #}
                 <td>{{ contest.users.count|add:"-1" }}</td>

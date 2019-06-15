@@ -8,6 +8,7 @@ from contests.models import Contests
 class IndexView(LoginRequiredMixin, View):
 
     def get(self, request):
+        user_id = request.user.pk
         user_is_staff = request.user.is_staff
         page_size = 10
         current_page = request.GET.get('page', 1)
@@ -15,7 +16,11 @@ class IndexView(LoginRequiredMixin, View):
         if user_is_staff:
             contests = Contests.objects.order_by('-created_at').all()
         else:
-            contests = Contests.objects.order_by('-created_at').filter(is_visible=True).all()
+            contests = Contests.objects\
+                .order_by('-created_at')\
+                .filter(is_visible=True)\
+                .exclude(users__contest_users__exact=user_id)\
+                .all()
 
         contests = Paginator(contests, page_size)
         contests = contests.get_page(current_page)

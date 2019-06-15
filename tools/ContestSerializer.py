@@ -1,3 +1,6 @@
+from django.conf import settings
+from pytz import timezone
+
 class ContestSerializer(object):
 
     def __init__(self, instance):
@@ -12,7 +15,9 @@ class ContestSerializer(object):
                 'id': problem.id,
                 'title': problem.title
             })
-        start_time = self.instance.start_time.strftime('%d.%m.%Y %H:%M')
+
+        current_timezone = timezone(settings.TIME_ZONE)
+        start_time = self.instance.start_time.astimezone(current_timezone).strftime('%d.%m.%Y %H:%M')
 
         return {
             'name': self.instance.name,
