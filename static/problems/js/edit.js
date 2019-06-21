@@ -178,9 +178,9 @@
         mounted: function () {
           this.loadProblem().then((response) => {
             this.extractProblemFields(response.data);
+            source.CKEDITOR.replace(source.descriptionId);
+            source.CKEDITOR.instances[source.descriptionId].setData(this.description);
           });
-
-          source.CKEDITOR.replace(source.descriptionId);
         },
       });
     },
