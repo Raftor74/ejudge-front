@@ -39,7 +39,15 @@
             </tr>
             <tr>
               <th scope="row">Роль</th>
-              <td>{% if user.is_staff or user.is_superuser %}Администратор{% else %}Пользователь{% endif %}</td>
+              <td>
+                {% if user.is_superuser %}
+                  Администратор
+                {% elif user.is_staff %}
+                  Персонал
+                {% else %}
+                  Пользователь
+                {% endif %}
+              </td>
             </tr>
           </tbody>
         </table>
