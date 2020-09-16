@@ -19,7 +19,7 @@ class IndexView(LoginRequiredMixin, View):
             contests = Contests.objects\
                 .order_by('-created_at')\
                 .filter(is_visible=True)\
-                .exclude(users__contests__users__exact=user)\
+                .exclude(users__exact=user)\
                 .all()
 
         contests = Paginator(contests, page_size)

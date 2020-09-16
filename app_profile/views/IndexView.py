@@ -15,7 +15,7 @@ class IndexView(LoginRequiredMixin, View):
 
         user = User.objects.get(pk=request.user.pk)
         count_contests = Contests.objects.filter(is_visible=True).count()
-        user_contests = Contests.objects.order_by('-pk').filter(is_visible=True, users__contests__users__exact=user)
+        user_contests = Contests.objects.order_by('-pk').filter(is_visible=True, users__exact=user)
         user_contests = Paginator(user_contests, page_size)
         user_contests = user_contests.get_page(current_page)
 

@@ -21,7 +21,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'NAME': 'ejudge_front',
         'USER': 'ejudge',
-        'PASSWORD': 'ejudge',
+        'PASSWORD': '7R2ItA%CXp',
     }
 }
 

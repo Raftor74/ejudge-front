@@ -13,7 +13,7 @@ class RegisterView(View):
         user = request.user
 
         try:
-            contest = Contests.objects.exclude(users__contests__users__exact=user).get(pk=contest_id, is_visible=True)
+            contest = Contests.objects.exclude(users__exact=user).get(pk=contest_id, is_visible=True)
         except Contests.DoesNotExist:
             return redirect(reverse('contests_index'))
 
@@ -29,7 +29,7 @@ class RegisterView(View):
         user = request.user
 
         try:
-            contest = Contests.objects.exclude(users__contests__users__exact=user).get(pk=contest_id, is_visible=True)
+            contest = Contests.objects.exclude(users__exact=user).get(pk=contest_id, is_visible=True)
         except Contests.DoesNotExist:
             response = Response(Response.STATUS_FAIL, "Соревнование недоступно для регистрации", {}).get()
             return JsonResponse(response)
